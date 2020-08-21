@@ -271,30 +271,30 @@ func getEvent(eventID, loginUserID int64) (*Event, error) {
 
 	for _, r := range reservations {
 		var sheet Sheet
-		for _,s := range sheets {
+		for _, s := range sheets {
 			if r.SheetID == s.ID {
 				sheet = s
 				break
 			}
 		}
 
-		sheet.Mine = r.UserID = loginUserID
+		sheet.Mine = r.UserID == loginUserID
 		sheet.Reserved = true
-		sheet.Reservedat = r.ReservedAt
+		sheet.ReservedAt = r.ReservedAt
 		sheet.ReservedAtUnix = r.ReservedAt.Unix()
 
 		event.Remains--
 		event.Sheets[sheet.Rank].Remains--
-		
+
 		var detail []*Sheet
-		for _,d := range event.Sheets[sheet.Rank].Detail {
+		for _, d := range event.Sheets[sheet.Rank].Detail {
 			if d.ID == sheet.ID {
 				detail = append(detail, &sheet)
 			} else {
 				detail = append(detail, d)
 			}
 		}
-		event.sheet[sheet.Rank].Detail = detail
+		event.Sheets[sheet.Rank].Detail = detail
 	}
 
 	return &event, nil
