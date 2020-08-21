@@ -319,6 +319,8 @@ func getEvent(eventID, loginUserID int64) (*Event, error) {
 				detail = append(detail, d)
 			}
 		}
+		// ここで今までのreservationのsheet情報が登録されたdetailができている
+		// 一応入れとく（最後までforが回ったとき、それは完成してる）
 		event.Sheets[sheet.Rank].Detail = detail
 	}
 
